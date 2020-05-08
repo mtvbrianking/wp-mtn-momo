@@ -2,7 +2,7 @@
 Contributors: bmatovu
 Donate link:
 Tags: mtn, momo, mobile, money, mobile-money, payments
-Requires at least: 5.4
+Requires at least: 5.3
 Tested up to: 5.4
 Requires PHP: 5.6.20
 Stable tag: 1.0.0
