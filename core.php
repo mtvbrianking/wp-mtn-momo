@@ -7,23 +7,23 @@
   * @see https://gist.github.com/sudar/9927194
  */
 function fn_mtn_momo_activation_hook() {
-    global $wpdb;
+	global $wpdb;
 
-    $charset_collate = '';
+	$charset_collate = '';
 
-    if ($wpdb->has_cap('collation')) {
-        $charset_collate = $wpdb->get_charset_collate();
-    }
+	if ($wpdb->has_cap('collation')) {
+		$charset_collate = $wpdb->get_charset_collate();
+	}
 
-    $tbl_configurations = "{$wpdb->prefix}mtn_momo_configurations";
+	$tbl_configurations = "{$wpdb->prefix}mtn_momo_configurations";
 
-    $tbl_tokens = "{$wpdb->prefix}mtn_momo_tokens";
+	$tbl_tokens = "{$wpdb->prefix}mtn_momo_tokens";
 
-    $tbl_transactions = "{$wpdb->prefix}mtn_momo_transactions";
+	$tbl_transactions = "{$wpdb->prefix}mtn_momo_transactions";
 
-    $callback_uri = get_rest_url(null, 'mtn-momo/v1/transaction');
+	$callback_uri = get_rest_url(null, 'mtn-momo/v1/transaction');
 
-    $sql = "
+	$sql = "
     CREATE TABLE {$tbl_configurations} (
         `id` INT(10) NOT NULL AUTO_INCREMENT,
         `label` VARCHAR(191) NOT NULL,
@@ -84,14 +84,14 @@ function fn_mtn_momo_activation_hook() {
     ('Collections Account Balance URI', 'collection_account_balance_uri', 'collection/v1_0/account/balance', NULL),
     ('Collections Account Status URI', 'collection_account_status_uri', 'collection/v1_0/accountholder/{party_id_type}/{party_id}/active', NULL);";
 
-    // Migrate table only when non-existent
-    if ($wpdb->get_var("SHOW TABLES LIKE '{$tbl_configurations}';") != $tbl_configurations) {
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	// Migrate table only when non-existent
+	if ($wpdb->get_var("SHOW TABLES LIKE '{$tbl_configurations}';") != $tbl_configurations) {
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-        dbDelta($sql);
+		dbDelta($sql);
 
-        add_option('mtn_momo_db_version', MTN_MOMO_DB_VERSION);
-    }
+		add_option('mtn_momo_db_version', MTN_MOMO_DB_VERSION);
+	}
 }
 
 /**
@@ -100,17 +100,17 @@ function fn_mtn_momo_activation_hook() {
  * @see https://wordpress.stackexchange.com/questions/169145/delete-tables-from-database-when-deleting-plugin
  */
 function fn_mtn_momo_uninstall_hook() {
-    global $wpdb;
+	global $wpdb;
 
-    $sql = "DROP TABLE IF EXISTS {$wpdb->prefix}mtn_momo_configurations;";
+	$sql = "DROP TABLE IF EXISTS {$wpdb->prefix}mtn_momo_configurations;";
 
-    $sql .= "DROP TABLE IF EXISTS {$wpdb->prefix}mtn_momo_tokens;";
+	$sql .= "DROP TABLE IF EXISTS {$wpdb->prefix}mtn_momo_tokens;";
 
-    $sql .= "DROP TABLE IF EXISTS {$wpdb->prefix}mtn_momo_transactions;";
+	$sql .= "DROP TABLE IF EXISTS {$wpdb->prefix}mtn_momo_transactions;";
 
-    $wpdb->query($sql);
+	$wpdb->query($sql);
 
-    delete_option('mtn_momo_db_version');
+	delete_option('mtn_momo_db_version');
 }
 
 /**
@@ -119,37 +119,37 @@ function fn_mtn_momo_uninstall_hook() {
  * @see https://developer.wordpress.org/reference/functions/add_submenu_page/#comment-446
  */
 function fn_mtn_momo_admin_menu_action() {
-    $transactionsPage = MTN_MOMO_PLUGIN_DIR . 'pages/transactions.php';
+	$transactionsPage = MTN_MOMO_PLUGIN_DIR . 'pages/transactions.php';
 
-    add_menu_page('MTN MOMO', 'MTN MOMO', 'manage_options', $transactionsPage);
+	add_menu_page('MTN MOMO', 'MTN MOMO', 'manage_options', $transactionsPage);
 
-    add_submenu_page($transactionsPage, 'Transactions', 'Transactions', 'manage_options', $transactionsPage);
+	add_submenu_page($transactionsPage, 'Transactions', 'Transactions', 'manage_options', $transactionsPage);
 
-    add_submenu_page($transactionsPage, 'Configurations', 'Configurations', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/configurations.php');
+	add_submenu_page($transactionsPage, 'Configurations', 'Configurations', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/configurations.php');
 
-    add_submenu_page($transactionsPage, 'Sandbox', 'Sandbox', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/sandbox.php');
+	add_submenu_page($transactionsPage, 'Sandbox', 'Sandbox', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/sandbox.php');
 }
 
 function fn_mtn_momo_page_sandbox_scripts() {
-    if (get_current_screen()->base != 'wp-mtn-momo/pages/sandbox') {
-        return;
-    }
+	if (get_current_screen()->base != 'wp-mtn-momo/pages/sandbox') {
+		return;
+	}
 
-    wp_register_style('sandbox-css', plugin_dir_url(__FILE__) . 'assets/css/sandbox.css', array(), MTN_MOMO_VERSION);
+	wp_register_style('sandbox-css', plugin_dir_url(__FILE__) . 'assets/css/sandbox.css', array(), MTN_MOMO_VERSION);
 
-    wp_enqueue_style('sandbox-css');
+	wp_enqueue_style('sandbox-css');
 
-    wp_register_script('sandbox-js', plugin_dir_url(__FILE__) . 'assets/js/sandbox.js', array('jquery'), MTN_MOMO_VERSION, true);
+	wp_register_script('sandbox-js', plugin_dir_url(__FILE__) . 'assets/js/sandbox.js', array('jquery'), MTN_MOMO_VERSION, true);
 
-    wp_enqueue_script('sandbox-js');
+	wp_enqueue_script('sandbox-js');
 
-    $params = array(
-        'ajax' => array(
-            'url' => admin_url('admin-ajax.php'),
-        )
-    );
+	$params = array(
+		'ajax' => array(
+			'url' => admin_url('admin-ajax.php'),
+		)
+	);
 
-    wp_localize_script('sandbox-js', 'params', $params);
+	wp_localize_script('sandbox-js', 'params', $params);
 }
 
 /**
@@ -158,35 +158,35 @@ function fn_mtn_momo_page_sandbox_scripts() {
  * @see https://gist.github.com/hinnerk-a/2846011 Source
  */
 function fn_mtn_momo_log_http_requests($wp_http_response, $request, $url) {
-    $request = array(
-        'method' => $request['method'],
-        'url' => $url,
-        'headers' => $request['headers'],
-        'body' => $request['body'],
-    );
+	$request = array(
+		'method' => $request['method'],
+		'url' => $url,
+		'headers' => $request['headers'],
+		'body' => $request['body'],
+	);
 
-    if ($wp_http_response instanceof WP_Error) {
-        $response = array(
-            'errors' => $wp_http_response->errors,
-            'error_data' => $wp_http_response->error_data,
-        );
-    } else {
-        $response = array(
-            'status' => array(
-                'code' => wp_remote_retrieve_response_code($wp_http_response),
-                'message' => wp_remote_retrieve_response_message($wp_http_response),
-            ),
-            'headers' => wp_remote_retrieve_headers($wp_http_response)->getAll(),
-            'body' => wp_remote_retrieve_body($wp_http_response),
-        );
-    }
+	if ($wp_http_response instanceof WP_Error) {
+		$response = array(
+			'errors' => $wp_http_response->errors,
+			'error_data' => $wp_http_response->error_data,
+		);
+	} else {
+		$response = array(
+			'status' => array(
+				'code' => wp_remote_retrieve_response_code($wp_http_response),
+				'message' => wp_remote_retrieve_response_message($wp_http_response),
+			),
+			'headers' => wp_remote_retrieve_headers($wp_http_response)->getAll(),
+			'body' => wp_remote_retrieve_body($wp_http_response),
+		);
+	}
 
-    $log = json_encode(array(
-        'request' => $request,
-        'response' => $response,
-    ));
+	$log = json_encode(array(
+		'request' => $request,
+		'response' => $response,
+	));
 
-    fn_mtn_momo_log($log);
+	fn_mtn_momo_log($log);
 
-    return $wp_http_response;
+	return $wp_http_response;
 }

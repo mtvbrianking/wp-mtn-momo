@@ -3,58 +3,58 @@
 $old = $errors = array();
 
 if (isset($_POST['submit'])) {
-    $nonce = $_REQUEST['_wpnonce'];
+	$nonce = $_REQUEST['_wpnonce'];
 
-    $error_msg = '';
+	$error_msg = '';
 
-    if (! wp_verify_nonce($nonce, 'sandbox')) {
-        $error_msg = __('Cross-site request forgery.');
-    }
+	if (! wp_verify_nonce($nonce, 'sandbox')) {
+		$error_msg = __('Cross-site request forgery.');
+	}
 
-    if ($error_msg) {
-        print("<div class='error'>{$error_msg}</div>");
-        exit;
-    }
+	if ($error_msg) {
+		print("<div class='error'>{$error_msg}</div>");
+		exit;
+	}
 
-    $config = new MTN_MOMO_Configuration();
+	$config = new MTN_MOMO_Configuration();
 
-    $client_app = new MTN_MOMO_Client_App($config);
+	$client_app = new MTN_MOMO_Client_App($config);
 
-    // Update subscription key..........................................................................................
+	// Update subscription key..........................................................................................
 
-    $old['product'] = $product = $_POST['product'];
+	$old['product'] = $product = $_POST['product'];
 
-    $config->set("{$product}_key", $_POST['key']);
+	$config->set("{$product}_key", $_POST['key']);
 
-    // Register client app id...........................................................................................
+	// Register client app id...........................................................................................
 
-    $client_app_id = wp_generate_uuid4();
+	$client_app_id = wp_generate_uuid4();
 
-    $wp_http_response = $client_app->register_id($product, $client_app_id);
+	$wp_http_response = $client_app->register_id($product, $client_app_id);
 
-    $statusCode = wp_remote_retrieve_response_code($wp_http_response);
+	$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
-    if (! $statusCode || fn_mtn_momo_intdiv($statusCode, 100) > 3) {
-        print("<h4 class='error'>Client APP ID registration has failed.</h4>");
-        wp_die();
-    }
+	if (! $statusCode || fn_mtn_momo_intdiv($statusCode, 100) > 3) {
+		print("<h4 class='error'>Client APP ID registration has failed.</h4>");
+		wp_die();
+	}
 
-    $config->set("{$product}_id", $client_app_id);
+	$config->set("{$product}_id", $client_app_id);
 
-    // Request client app secret........................................................................................
+	// Request client app secret........................................................................................
 
-    $wp_http_response = $client_app->request_secret($product);
+	$wp_http_response = $client_app->request_secret($product);
 
-    $statusCode = wp_remote_retrieve_response_code($wp_http_response);
+	$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
-    if (! $statusCode || fn_mtn_momo_intdiv($statusCode, 100) > 3) {
-        print("<h4 class='error'>Client APP Secret request has failed.</h4>");
-        wp_die();
-    }
+	if (! $statusCode || fn_mtn_momo_intdiv($statusCode, 100) > 3) {
+		print("<h4 class='error'>Client APP Secret request has failed.</h4>");
+		wp_die();
+	}
 
-    $api_response = json_decode(wp_remote_retrieve_body($wp_http_response), false);
+	$api_response = json_decode(wp_remote_retrieve_body($wp_http_response), false);
 
-    $config->set("{$product}_secret", $api_response->apiKey);
+	$config->set("{$product}_secret", $api_response->apiKey);
 }
 
 ?>

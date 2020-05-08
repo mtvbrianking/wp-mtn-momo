@@ -1,6 +1,8 @@
 <?php
 
 // https://mlocati.github.io/php-cs-fixer-configurator
+// https://make.wordpress.org/core/handbook/best-practices/coding-standards/php
+// https://make.wordpress.org/core/2020/03/20/updating-the-coding-standards-for-modern-php
 
 $rules = array(
 	'@PSR2' => true,
@@ -17,6 +19,8 @@ $excludes = array(
 
 return PhpCsFixer\Config::create()
 	->setRules($rules)
+	->setIndent("\t")
+	->setLineEnding("\r\n")
 	->setFinder(
 		PhpCsFixer\Finder::create()
 			->exclude($excludes)

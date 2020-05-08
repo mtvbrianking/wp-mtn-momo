@@ -1,48 +1,48 @@
 <?php
 
 function fn_db_get_configurations_raw($table = '') {
-    global $wpdb;
+	global $wpdb;
 
-    if (! $table) {
-        $table = "{$wpdb->prefix}mtn_momo_configurations";
-    }
+	if (! $table) {
+		$table = "{$wpdb->prefix}mtn_momo_configurations";
+	}
 
-    return $wpdb->get_results("SELECT `label`, `name`, `value`, `description` FROM {$table};");
+	return $wpdb->get_results("SELECT `label`, `name`, `value`, `description` FROM {$table};");
 }
 
 function fn_db_update_configurations(array $configurations, $table = '') {
-    global $wpdb;
+	global $wpdb;
 
-    if (! $table) {
-        $table = "{$wpdb->prefix}mtn_momo_configurations";
-    }
+	if (! $table) {
+		$table = "{$wpdb->prefix}mtn_momo_configurations";
+	}
 
-    foreach ($configurations as $name => $value) {
-        $wpdb->update(
-            $table,              // Table name
-            array('value' => $value), // Set columns
-            array('name' => $name),   // Where columns
-            array('%s'),              // Set bindings
-            array('%s')               // Where bind
-        );
-    }
+	foreach ($configurations as $name => $value) {
+		$wpdb->update(
+			$table,              // Table name
+			array('value' => $value), // Set columns
+			array('name' => $name),   // Where columns
+			array('%s'),              // Set bindings
+			array('%s')               // Where bind
+		);
+	}
 }
 
 if (isset($_POST['_wpnonce'])) {
-    $nonce = $_REQUEST['_wpnonce'];
+	$nonce = $_REQUEST['_wpnonce'];
 
-    $error_msg = '';
+	$error_msg = '';
 
-    if (! wp_verify_nonce($nonce, 'update-configurations')) {
-        $error_msg = __('Unable to submit this form, please refresh and try again.');
-    }
+	if (! wp_verify_nonce($nonce, 'update-configurations')) {
+		$error_msg = __('Unable to submit this form, please refresh and try again.');
+	}
 
-    if ($error_msg) {
-        print("<div class='error'>{$error_msg}</div>");
-        exit;
-    }
+	if ($error_msg) {
+		print("<div class='error'>{$error_msg}</div>");
+		exit;
+	}
 
-    fn_db_update_configurations($_POST['config']);
+	fn_db_update_configurations($_POST['config']);
 }
 ?>
 

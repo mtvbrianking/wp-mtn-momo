@@ -8,7 +8,7 @@
  * @return int
  */
 function fn_mtn_momo_intdiv(int $dividend, int $divisor) {
-    return ($dividend - $dividend % $divisor) / $divisor;
+	return ($dividend - $dividend % $divisor) / $divisor;
 }
 
 /**
@@ -25,34 +25,34 @@ function fn_mtn_momo_intdiv(int $dividend, int $divisor) {
  * @return mixed
  */
 function fn_mtn_momo_array_get(array $haystack, $needle, $default = null) {
-    $keys = explode('.', $needle);
+	$keys = explode('.', $needle);
 
-    foreach ($keys as $idx => $needle) {
-        if (! isset($haystack[$needle])) {
-            return $default;
-        }
+	foreach ($keys as $idx => $needle) {
+		if (! isset($haystack[$needle])) {
+			return $default;
+		}
 
-        if ($idx === (sizeof($keys) - 1)) {
-            return $haystack[$needle];
-        }
+		if ($idx === (sizeof($keys) - 1)) {
+			return $haystack[$needle];
+		}
 
-        $haystack = $haystack[$needle];
-    }
+		$haystack = $haystack[$needle];
+	}
 
-    return $default;
+	return $default;
 }
 
 /**
  * Write to log
  */
 function fn_mtn_momo_log($log) {
-    if (WP_DEBUG === true) {
-        if (is_array($log) || is_object($log)) {
-            error_log(print_r($log, true));
-        } else {
-            error_log($log);
-        }
-    }
+	if (WP_DEBUG === true) {
+		if (is_array($log) || is_object($log)) {
+			error_log(print_r($log, true));
+		} else {
+			error_log($log);
+		}
+	}
 }
 
 /**
@@ -65,12 +65,12 @@ function fn_mtn_momo_log($log) {
  * @return void
  */
 function fn_mtn_momo_dd($data) {
-    ini_set("highlight.comment", "#969896; font-style: italic");
-    ini_set("highlight.default", "#FFFFFF");
-    ini_set("highlight.html", "#D16568");
-    ini_set("highlight.keyword", "#7FA3BC; font-weight: bold");
-    ini_set("highlight.string", "#F2C47E");
-    $output = highlight_string("<?php\n\n" . var_export($data, true), true);
-    echo "<div style=\"background-color: #1C1E21; padding: 1rem\">{$output}</div><br\>";
-    wp_die();
+	ini_set("highlight.comment", "#969896; font-style: italic");
+	ini_set("highlight.default", "#FFFFFF");
+	ini_set("highlight.html", "#D16568");
+	ini_set("highlight.keyword", "#7FA3BC; font-weight: bold");
+	ini_set("highlight.string", "#F2C47E");
+	$output = highlight_string("<?php\n\n" . var_export($data, true), true);
+	echo "<div style=\"background-color: #1C1E21; padding: 1rem\">{$output}</div><br\>";
+	wp_die();
 }
