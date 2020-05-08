@@ -1,0 +1,21 @@
+{
+  "name": "bmatovu/wp-mtn-momo",
+  "description": "MTN MOMO is a plugin to help you make transactions via MTN Mobile Money.",
+  "homepage": "https://github.com/mtvbrianking/wp-mtn-momo",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Brian Matovu",
+      "homepage": "http://bmatovu.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "php": ">=5.3.6"
+  }
+}
