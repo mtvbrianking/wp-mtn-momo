@@ -74,3 +74,22 @@ function fn_mtn_momo_dd($data) {
 	echo "<div style=\"background-color: #1C1E21; padding: 1rem\">{$output}</div><br\>";
 	wp_die();
 }
+
+/**
+ * Generate html notice
+ *
+ * @see https://developer.wordpress.org/reference/hooks/admin_notices/#comment-2411 Source
+ *
+ * @param  string|array  $message
+ * @param  string  $class           Statues: info, warning, error, success
+ * @param  boolean $is_dismissible
+ *
+ * @return string                   HTML notice
+ */
+function fn_mtn_momo_notify($message, $class = 'info', $is_dismissible = true) {
+	$is_dismissible = $is_dismissible ? 'is-dismissible' : '';
+
+	$message = is_array($message) ? implode('</p><p>', $message) : $message;
+
+	printf('<div class="notice notice-%1$s %2$s"><p>%3$s</p></div>', esc_attr($class), esc_attr($is_dismissible), $message);
+}

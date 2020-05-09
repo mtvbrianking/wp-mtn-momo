@@ -1,20 +1,16 @@
 <?php
 
-$old = $errors = array();
+function processForm() {
+	$old = $notices = array();
 
-if (isset($_POST['submit'])) {
 	$nonce = $_REQUEST['_wpnonce'];
 
-	$error_msg = '';
-
 	if (! wp_verify_nonce($nonce, 'sandbox')) {
-		$error_msg = __('Cross-site request forgery.');
+		$notices['error'][] = 'Cross-site request forgery.';
+		return array('old' => $_POST, 'notices' => $notices);
 	}
 
-	if ($error_msg) {
-		print("<div class='error'>{$error_msg}</div>");
-		exit;
-	}
+	// .................................................................................................................
 
 	$config = new MTN_MOMO_Configuration();
 
@@ -22,7 +18,7 @@ if (isset($_POST['submit'])) {
 
 	// Update subscription key..........................................................................................
 
-	$old['product'] = $product = $_POST['product'];
+	$product = $_POST['product'];
 
 	$config->set("{$product}_key", $_POST['key']);
 
@@ -30,31 +26,41 @@ if (isset($_POST['submit'])) {
 
 	$client_app_id = wp_generate_uuid4();
 
-	$wp_http_response = $client_app->register_id($product, $client_app_id);
+	$registered = $client_app->register_id($product, $client_app_id);
 
-	$statusCode = wp_remote_retrieve_response_code($wp_http_response);
-
-	if (! $statusCode || fn_mtn_momo_intdiv($statusCode, 100) > 3) {
-		print("<h4 class='error'>Client APP ID registration has failed.</h4>");
-		wp_die();
+	if (! $registered) {
+		$notices['error'][] = 'Client app ID registration has failed.';
+		return array('old' => $_POST, 'notices' => $notices);
 	}
 
 	$config->set("{$product}_id", $client_app_id);
 
 	// Request client app secret........................................................................................
 
-	$wp_http_response = $client_app->request_secret($product);
+	$client_app_secret = $client_app->request_secret($product);
 
-	$statusCode = wp_remote_retrieve_response_code($wp_http_response);
-
-	if (! $statusCode || fn_mtn_momo_intdiv($statusCode, 100) > 3) {
-		print("<h4 class='error'>Client APP Secret request has failed.</h4>");
-		wp_die();
+	if (! $client_app_secret) {
+		$notices['error'][] = 'Client app secret registration has failed.';
+		return array('old' => $_POST, 'notices' => $notices);
 	}
 
-	$api_response = json_decode(wp_remote_retrieve_body($wp_http_response), false);
+	$config->set("{$product}_secret", $client_app_secret);
 
-	$config->set("{$product}_secret", $api_response->apiKey);
+	$notices['success'][] = 'Sandbox credentials updated...';
+
+	return array('old' => $_POST, 'notices' => $notices);
+}
+
+$old = array();
+
+if (isset($_POST['submit'])) {
+	$form = processForm();
+
+	$old = $form['old'];
+
+	foreach ($form['notices'] as $class => $messages) {
+		echo fn_mtn_momo_notify($messages, $class);
+	}
 }
 
 ?>

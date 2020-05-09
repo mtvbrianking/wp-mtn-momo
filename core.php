@@ -51,6 +51,7 @@ function fn_mtn_momo_activation_hook() {
     CREATE TABLE {$tbl_transactions} (
         `external_id` CHAR(36) NOT NULL COMMENT 'MTN MOMO transaction ID',
         `internal_id` VARCHAR(191) NOT NULL COMMENT 'Your business transaction ID. Say: order no.',
+        `product` ENUM('collection','disbursement','remittance') NOT NULL,
         `payer` VARCHAR(255),
         `payee` VARCHAR(255),
         `status` ENUM('failed', 'rejected', 'timeout', 'ongoing', 'pending'), -- NOT NULL DEFAULT 'pending',

@@ -3,10 +3,23 @@
 class MTN_MOMO_Client_App {
 	protected $config;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param MTN_MOMO_Configuration $config
+	 */
 	public function __construct(MTN_MOMO_Configuration $config) {
 		$this->config = $config;
 	}
 
+	/**
+	 * Register client app ID.
+	 *
+	 * @param  string      $product
+	 * @param  string      $client_app_id UUID format 4
+	 *
+	 * @return bool        True if successful.
+	 */
 	public function register_id($product, $client_app_id) {
 		$api_base_uri = $this->config->get('api_base_uri');
 		$api_register_id_uri = $this->config->get('api_register_id_uri');
@@ -36,15 +49,20 @@ class MTN_MOMO_Client_App {
 
 		$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
-		if ($statusCode === 401) {
+		if ($statusCode !== 201) {
 			return false;
 		}
 
-		if ($statusCode !== 201) {
-			return true;
-		}
+		return true;
 	}
 
+	/**
+	 * Request client app secret.
+	 *
+	 * @param  string      $product
+	 *
+	 * @return string|null Secret, or null on failure.
+	 */
 	public function request_secret($product) {
 		$api_base_uri = $this->config->get('api_base_uri');
 		$api_request_secret_uri = $this->config->get('api_request_secret_uri');
@@ -69,17 +87,17 @@ class MTN_MOMO_Client_App {
 		));
 
 		if (is_wp_error($wp_http_response)) {
-			return false;
+			return null;
 		}
 
 		$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
-		if ($statusCode === 401) {
-			return false;
+		if ($statusCode !== 201) {
+			return null;
 		}
 
-		if ($statusCode !== 201) {
-			return true;
-		}
+		$wp_http_response_body = wp_remote_retrieve_body($wp_http_response);
+
+		return json_decode($wp_http_response_body, true)['apiKey'];
 	}
 }
