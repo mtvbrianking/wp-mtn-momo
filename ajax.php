@@ -70,8 +70,9 @@ function fn_mtn_momo_ajax_get_transaction_status() {
 	$wpdb->update(
 		$table,
 		array(
-			'status' => strtolower($transaction['status']),
-			'reason' => fn_mtn_momo_array_get($transaction, 'reason')
+			'status' => $transaction['status'],
+			// reason is an array 🙄
+			'reason' => fn_mtn_momo_array_get($transaction, 'reason.code')
 		),
 		array('external_id' => $_POST['momo_transaction_id']),
 		array('%s', '%s'),

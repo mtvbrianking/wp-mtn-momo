@@ -55,7 +55,7 @@ function fn_mtn_momo_activation_hook() {
         `payer` VARCHAR(255),
         `payee` VARCHAR(255),
         `amount` DECIMAL(10, 0),
-        `status` ENUM('failed', 'rejected', 'timeout', 'ongoing', 'pending'), -- NOT NULL DEFAULT 'pending',
+        `status` ENUM('PENDING', 'SUCCESSFUL', 'FAILED'),
         `reason` VARCHAR(255),
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

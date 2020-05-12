@@ -14,7 +14,7 @@ class MTN_MOMO_Transaction {
 	 * @param  int    $amount
 	 * @param  string $payer        Payer identifier
 	 * @param  string $payee        Payee identifier
-	 * @param  string $status       Statuses: failed, rejected, timeout, ongoing, pending
+	 * @param  string $status       Statuses: PENDING, SUCCESSFUL, FAILED
 	 * @param  string $reason       Reason for status
 	 * @return int|bool             The number of rows inserted, or false on error
 	 */
