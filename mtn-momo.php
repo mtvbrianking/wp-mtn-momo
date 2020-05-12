@@ -33,6 +33,7 @@ define('MTN_MOMO_DB_VERSION', '0.0.1');
 
 // Functions
 require_once(MTN_MOMO_PLUGIN_DIR . 'helpers.php');
+require_once(MTN_MOMO_PLUGIN_DIR . 'shortcodes.php');
 require_once(MTN_MOMO_PLUGIN_DIR . 'core.php');
 require_once(MTN_MOMO_PLUGIN_DIR . 'ajax.php');
 
@@ -45,6 +46,7 @@ require_once(MTN_MOMO_PLUGIN_DIR . 'class.token-repository.php');
 require_once(MTN_MOMO_PLUGIN_DIR . 'class.oauth.php');
 
 require_once(MTN_MOMO_PLUGIN_DIR . 'class.collection.php');
+require_once(MTN_MOMO_PLUGIN_DIR . 'class.transaction.php');
 
 require_once(MTN_MOMO_PLUGIN_DIR . 'class.rest-api.php');
 
@@ -56,10 +58,16 @@ add_filter('http_response', 'fn_mtn_momo_log_http_requests', 10, 3);
 
 add_action('admin_menu', 'fn_mtn_momo_admin_menu_action');
 
-add_action('admin_enqueue_scripts', 'fn_mtn_momo_page_sandbox_scripts');
+add_action('admin_enqueue_scripts', 'fn_mtn_momo_page_scripts');
 
 add_action('rest_api_init', array('MTN_MOMO_Rest_Api', 'init'));
 
-add_action('wp_ajax_get_configurations', 'fn_mtn_momo_ajax_get_configurations_ajax');
+add_action('wp_ajax_get_configurations', 'fn_mtn_momo_ajax_get_configurations');
 
-add_action('wp_ajax_nopriv_get_configurations', 'fn_mtn_momo_ajax_get_configurations_ajax');
+add_action('wp_ajax_nopriv_get_configurations', 'fn_mtn_momo_ajax_get_configurations');
+
+add_action('wp_ajax_get_transaction_status', 'fn_mtn_momo_ajax_get_transaction_status');
+
+add_action('wp_ajax_nopriv_get_transaction_status', 'fn_mtn_momo_ajax_get_transaction_status');
+
+add_shortcode('mtn_momo_greeting', 'fn_mtn_momo_greeting');

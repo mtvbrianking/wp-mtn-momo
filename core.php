@@ -54,9 +54,9 @@ function fn_mtn_momo_activation_hook() {
         `product` ENUM('collection','disbursement','remittance') NOT NULL,
         `payer` VARCHAR(255),
         `payee` VARCHAR(255),
+        `amount` DECIMAL(10, 0),
         `status` ENUM('failed', 'rejected', 'timeout', 'ongoing', 'pending'), -- NOT NULL DEFAULT 'pending',
         `reason` VARCHAR(255),
-		`amount` DECIMAL,
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `deleted_at` TIMESTAMP NULL DEFAULT NULL,
@@ -129,28 +129,44 @@ function fn_mtn_momo_admin_menu_action() {
 	add_submenu_page($transactionsPage, 'Configurations', 'Configurations', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/configurations.php');
 
 	add_submenu_page($transactionsPage, 'Sandbox', 'Sandbox', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/sandbox.php');
+
+	add_submenu_page($transactionsPage, 'Collect', 'Collect', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/collect.php');
 }
 
-function fn_mtn_momo_page_sandbox_scripts() {
-	if (get_current_screen()->base != 'wp-mtn-momo/pages/sandbox') {
-		return;
-	}
-
-	wp_register_style('sandbox-css', plugin_dir_url(__FILE__) . 'assets/css/sandbox.css', array(), MTN_MOMO_VERSION);
-
-	wp_enqueue_style('sandbox-css');
-
-	wp_register_script('sandbox-js', plugin_dir_url(__FILE__) . 'assets/js/sandbox.js', array('jquery'), MTN_MOMO_VERSION, true);
-
-	wp_enqueue_script('sandbox-js');
-
+function fn_mtn_momo_page_scripts() {
 	$params = array(
 		'ajax' => array(
 			'url' => admin_url('admin-ajax.php'),
 		)
 	);
 
-	wp_localize_script('sandbox-js', 'params', $params);
+	if (get_current_screen()->base == 'wp-mtn-momo/pages/sandbox') {
+		wp_register_style('sandbox-css', plugin_dir_url(__FILE__) . 'assets/css/sandbox.css', array(), MTN_MOMO_VERSION);
+
+		wp_enqueue_style('sandbox-css');
+
+		wp_register_script('sandbox-js', plugin_dir_url(__FILE__) . 'assets/js/sandbox.js', array('jquery'), MTN_MOMO_VERSION, true);
+
+		wp_enqueue_script('sandbox-js');
+
+		wp_localize_script('sandbox-js', 'params', $params);
+	}
+
+	if (get_current_screen()->base == 'wp-mtn-momo/pages/collect') {
+		wp_register_script('collect-js', plugin_dir_url(__FILE__) . 'assets/js/collect.js', array('jquery'), MTN_MOMO_VERSION, true);
+
+		wp_enqueue_script('collect-js');
+
+		wp_localize_script('collect-js', 'params', $params);
+	}
+
+	if (get_current_screen()->base == 'wp-mtn-momo/pages/transactions') {
+		wp_register_script('transactions-js', plugin_dir_url(__FILE__) . 'assets/js/transactions.js', array('jquery'), MTN_MOMO_VERSION, true);
+
+		wp_enqueue_script('transactions-js');
+
+		wp_localize_script('transactions-js', 'params', $params);
+	}
 }
 
 /**

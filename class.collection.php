@@ -53,8 +53,8 @@ class MTN_MOMO_Collection {
 				'partyIdType' => $config->get('collection_party_id_type'),
 				'partyId' => $partyId,
 			),
-			'payerMessage' => $payerMessage,
-			'payeeNote' => $payeeNote,
+			'payerMessage' => fn_mtn_momo_alphanumeric($payerMessage),
+			'payeeNote' => fn_mtn_momo_alphanumeric($payeeNote),
 		);
 
 		$wp_http_response = wp_remote_request($resource_url, array(

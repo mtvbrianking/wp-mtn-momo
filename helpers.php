@@ -12,6 +12,19 @@ function fn_mtn_momo_intdiv(int $dividend, int $divisor) {
 }
 
 /**
+ * Strip all symbols from a string.
+ *
+ * @see https://stackoverflow.com/a/16791863/2732184 Source
+ *
+ * @param  string $str
+ *
+ * @return string
+ */
+function fn_mtn_momo_alphanumeric($str) {
+	return preg_replace('/[^\p{L}\p{N}\s]/u', '', $str);
+}
+
+/**
  * Get array value by key or default.
  *
  * ```
