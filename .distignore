@@ -1,0 +1,12 @@
+# Directories
+vendor
+
+# Files
+.distignore
+.editorconfig
+.gitignore
+.php_cs
+composer.json
+composer.lock
+phpcs.xml.dist
+readme.md

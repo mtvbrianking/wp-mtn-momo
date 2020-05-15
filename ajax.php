@@ -18,7 +18,7 @@ function fn_mtn_momo_ajax_get_configurations() {
 		$filter .= " WHERE `name` LIKE '{$product}%' ";
 	}
 
-	$sql = "SELECT `name`, `value` FROM {$table} {$filter};";
+	$sql = "SELECT `name`, `value` FROM `{$table}` {$filter};";
 
 	$configurations = $wpdb->get_results($sql);
 
@@ -71,7 +71,7 @@ function fn_mtn_momo_ajax_get_transaction_status() {
 		$table,
 		array(
 			'status' => $transaction['status'],
-			// reason is an array 🙄
+			'financial_id' => fn_mtn_momo_array_get($transaction, 'financialTransactionId'),
 			'reason' => fn_mtn_momo_array_get($transaction, 'reason.code')
 		),
 		array('external_id' => $_POST['momo_transaction_id']),

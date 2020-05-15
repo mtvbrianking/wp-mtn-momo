@@ -44,7 +44,7 @@ class WP_MTN_MOMO_Configuration {
 
 		$table = "{$wpdb->prefix}mtn_momo_configurations";
 
-		$sql = "SELECT * FROM {$table};";
+		$sql = "SELECT * FROM `{$table}`;";
 
 		$configurations = $wpdb->get_results($sql);
 

@@ -61,6 +61,7 @@ But first, submit you KYC forms [here](https://momodeveloper.mtn.com/go-live)
 1. Admin Toolbar Menu
 2. Configurations
 3. Sandbox Configurations
+4. Transactions
 
 == Changelog ==
 

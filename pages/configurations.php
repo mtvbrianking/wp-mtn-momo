@@ -1,13 +1,13 @@
 <?php
 
-function fn_db_get_configurations_raw($table = '') {
+function fn_db_get_configurations($table = '') {
 	global $wpdb;
 
 	if (! $table) {
 		$table = "{$wpdb->prefix}mtn_momo_configurations";
 	}
 
-	return $wpdb->get_results("SELECT `label`, `name`, `value`, `description` FROM {$table};");
+	return $wpdb->get_results("SELECT `label`, `name`, `value`, `description` FROM `{$table}`;");
 }
 
 function fn_db_update_configurations(array $configurations, $table = '') {
@@ -19,7 +19,7 @@ function fn_db_update_configurations(array $configurations, $table = '') {
 
 	foreach ($configurations as $name => $value) {
 		$wpdb->update(
-			$table,              // Table name
+			$table,                   // Table name
 			array('value' => $value), // Set columns
 			array('name' => $name),   // Where columns
 			array('%s'),              // Set bindings
@@ -55,7 +55,7 @@ if (isset($_POST['_wpnonce'])) {
     <h1><?php _e('Configurations'); ?></h1>
 
     <table class="form-table" role="presentation">
-        <?php foreach (fn_db_get_configurations_raw() as $config) { ?>
+        <?php foreach (fn_db_get_configurations() as $config) { ?>
             <tr>
                 <th>
                     <label for="<?php echo $config->name; ?>">
@@ -63,10 +63,10 @@ if (isset($_POST['_wpnonce'])) {
                     </label>
                 </th>
                 <td>
-                    <input type="text" 
+                    <input type="text"
                         style="width: 25em;"
-                        id="<?php echo $config->name; ?>" 
-                        name="config[<?php echo $config->name; ?>]" 
+                        id="<?php echo $config->name; ?>"
+                        name="config[<?php echo $config->name; ?>]"
                         value="<?php echo esc_attr($config->value); ?>"/>
                     <p class="description">
                         <?php echo $config->description; ?>
@@ -74,20 +74,6 @@ if (isset($_POST['_wpnonce'])) {
                 </td>
             </tr>
         <?php } ?>
-
-        <!--
-        <tr class="config-app-name-wrap">
-            <th>
-                <label for="app_name">App Name</label>
-            </th>
-            <td>
-                <input type="text" name="config[app_name]" id="app_name" value="WP MTN MOMO"/>
-                <p class="description" id="app-name-description">
-                    <strong>Store name:</strong> Identifies your store to the payee.
-                </p>
-            </td>
-        </tr>
-        -->
     </table>
 
     <?php submit_button(__('Update Configurations')); ?>

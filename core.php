@@ -51,6 +51,7 @@ function fn_mtn_momo_activation_hook() {
     CREATE TABLE {$tbl_transactions} (
         `external_id` CHAR(36) NOT NULL COMMENT 'MTN MOMO transaction ID',
         `internal_id` VARCHAR(191) NOT NULL COMMENT 'Your business transaction ID. Say: order no.',
+        `financial_id` VARCHAR(191) COMMENT 'Financial transaction ID',
         `product` ENUM('collection','disbursement','remittance') NOT NULL,
         `payer` VARCHAR(255),
         `payee` VARCHAR(255),
@@ -61,7 +62,8 @@ function fn_mtn_momo_activation_hook() {
         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `deleted_at` TIMESTAMP NULL DEFAULT NULL,
         PRIMARY KEY  (`external_id`),
-        UNIQUE KEY (`internal_id`)
+        UNIQUE KEY (`internal_id`),
+        UNIQUE KEY (`financial_id`)
     ) {$charset_collate};
 
     INSERT INTO {$tbl_configurations} (`label`, `name`, `value`, `description`) VALUES

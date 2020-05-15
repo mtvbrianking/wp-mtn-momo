@@ -2,13 +2,13 @@
 /**
  * MTN MOMO plugin for WordPress
  *
- * @package   mtn-momo
+ * @package   wp-mtn-momo
  * @link      https://github.com/johnbillion/query-monitor
  * @author    Brian Matovu <mtvbrianking@gmail.com>
  * @copyright 2020-2030 Brian Matovu
  * @license   GPL v2 or later
  *
- * Plugin Name:  MTN MOMO
+ * Plugin Name:  WP MTN MOMO
  * Description:  Make payments via MTN Mobile Money.
  * Version:      0.0.1
  * Plugin URI:   https://github.com/mtvbrianking/wp-mtn-momo
