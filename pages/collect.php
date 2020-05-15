@@ -81,6 +81,15 @@ if (isset($_POST['submit'])) {
 
 	<tr>
         <th>
+            <label>Redirect URI</label>
+        </th>
+        <td>
+            <label id="redirect_uri"><?php echo fn_mtn_momo_array_get($old, 'redirect-uri'); ?></label>
+        </td>
+    </tr>
+
+	<tr>
+        <th>
             <label>Transaction ID</label>
         </th>
         <td>
@@ -122,7 +131,7 @@ if (isset($_POST['submit'])) {
             <label>Transaction Status</label>
         </th>
         <td>
-            <label id="transaction_status">Pending</label>
+            <label id="transaction_status">PENDING</label>
         </td>
     </tr>
 
@@ -131,7 +140,7 @@ if (isset($_POST['submit'])) {
             &nbsp;
         </th>
         <td>
-            <input type="button" name="refresh" class="button button-primary" value="Refresh">
+            <button type="button" name="refresh" class="button button-primary">Refresh</button>
         </td>
     </tr>
 

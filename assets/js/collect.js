@@ -17,9 +17,40 @@
 			'FAILED',
 		];
 
-		if (status == 'PENDING') {
+		if (document.getElementById('transaction_status').textContent.trim() == 'PENDING') {
 			return "Transaction is't complete. Are you sure, you want to leave!"
 		}
+	}
+
+	window.checkTransactionStatus = function() {
+		var momo_transaction_id = document.getElementById('momo_transaction_id').textContent.trim();
+
+		$.ajax({
+			url: ajax_url,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				action: 'get_transaction_status',
+				product: 'collection',
+				momo_transaction_id: momo_transaction_id
+			},
+			success: function(transaction) {
+				console.log({status: transaction.status});
+
+				document.getElementById('transaction_status').textContent = transaction.status;
+
+				if(transaction.status != 'PENDING') {
+					var redirect_uri = document.getElementById('redirect_uri').textContent.trim();
+
+					if(redirect_uri.length) {
+						window.location.replace(redirect_uri + '?momo_transaction_id=' + momo_transaction_id + '&' + $.param(transaction));
+					}
+				}
+			},
+			error: function(xhr) {
+				console.error(xhr.responseJSON);
+			}
+		});
 	}
 
 	// Register variables...
@@ -29,23 +60,10 @@
 	$(document).ready(function() {
 		// Register events...
 
-		console.log(params);
+		onbeforeunload();
 
-		// $.ajax({
-		//     url: ajax_url,
-		//     type: 'POST',
-		//     dataType: 'json',
-		//     data: {
-		//         action: 'get_transaction_status',
-		//         product: 'collection',
-		//         momo_transaction_id: '1a39e22b-94db-4f30-9564-4670e1c7e5b6'
-		//     },
-		//     success: function(transaction) {
-		//         console.log({transaction: transaction});
-		//     },
-		//     error: function(xhr) {
-		//         console.error(xhr.responseJSON);
-		//     }
-		// });
+		$('button[name=refresh]').on('click', function(){
+			checkTransactionStatus();
+		});
 	});
 })(jQuery);

@@ -1,5 +1,7 @@
 <?php
 
+global $wp;
+
 // $collection = new MTN_MOMO_Collection();
 
 // $momo_transaction_id = $collection->request_to_pay('12345678', '46733123453', 100);
@@ -26,6 +28,20 @@
     <?php wp_referer_field(); ?>
 
     <table class="form-table" role="presentation">
+
+		<tr class="transaction-id-wrap">
+            <th>
+                <label for="redirect-uri">Redirect URI</label>
+            </th>
+            <td>
+                <input type="url" id="redirect-uri" name="redirect-uri" style="width: 25em;"
+                	value="<?php
+					echo plugin_dir_url(__DIR__).'mtn-momo/transactions.php';
+					// echo home_url($wp->request);
+					// echo add_query_arg($wp->query_vars, home_url($wp->request));
+					?>"/>
+            </td>
+        </tr>
 
     	<tr class="transaction-id-wrap">
             <th>
