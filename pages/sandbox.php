@@ -12,9 +12,9 @@ function processForm() {
 
 	// .................................................................................................................
 
-	$config = new MTN_MOMO_Configuration();
+	$config = new WP_MTN_MOMO_Configuration();
 
-	$client_app = new MTN_MOMO_Client_App($config);
+	$client_app = new WP_MTN_MOMO_Client_App($config);
 
 	// Update subscription key..........................................................................................
 

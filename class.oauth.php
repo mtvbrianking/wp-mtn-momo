@@ -1,8 +1,8 @@
 <?php
 
-class MTN_MOMO_OAuth {
+class WP_MTN_MOMO_OAuth {
 	public static function authorize($product) {
-		$token_repo = new MTN_MOMO_Token_Repository($product);
+		$token_repo = new WP_MTN_MOMO_Token_Repository($product);
 
 		$token = $token_repo->get();
 
@@ -26,7 +26,7 @@ class MTN_MOMO_OAuth {
 	}
 
 	public static function request($product) {
-		$config = new MTN_MOMO_Configuration();
+		$config = new WP_MTN_MOMO_Configuration();
 
 		$api_base_uri = $config->get('api_base_uri');
 		$product_token_uri = $config->get("{$product}_token_uri");
@@ -69,7 +69,7 @@ class MTN_MOMO_OAuth {
 	}
 
 	public static function discard($token) {
-		$token_repo = new MTN_MOMO_Token_Repository($token->getProduct());
+		$token_repo = new WP_MTN_MOMO_Token_Repository($token->getProduct());
 
 		$token_repo->delete($token->getAccessToken());
 	}

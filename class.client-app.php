@@ -1,14 +1,14 @@
 <?php
 
-class MTN_MOMO_Client_App {
+class WP_MTN_MOMO_Client_App {
 	protected $config;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param MTN_MOMO_Configuration $config
+	 * @param WP_MTN_MOMO_Configuration $config
 	 */
-	public function __construct(MTN_MOMO_Configuration $config) {
+	public function __construct(WP_MTN_MOMO_Configuration $config) {
 		$this->config = $config;
 	}
 

@@ -2,7 +2,7 @@
 
 global $wp;
 
-// $collection = new MTN_MOMO_Collection();
+// $collection = new WP_MTN_MOMO_Collection();
 
 // $momo_transaction_id = $collection->request_to_pay('12345678', '46733123453', 100);
 
@@ -14,7 +14,7 @@ global $wp;
 
 // ........................
 
-// $transaction = new MTN_MOMO_Transaction();
+// $transaction = new WP_MTN_MOMO_Transaction();
 
 // $transaction->create('e996501c-e721-4ac1-97ff-dc6887b85e8c', 'OrderNo#12345678', 'collection', 10.052);
 

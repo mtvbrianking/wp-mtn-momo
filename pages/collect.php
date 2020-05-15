@@ -37,7 +37,7 @@ function processForm() {
 
 	// .................................................................................................................
 
-	$collection = new MTN_MOMO_Collection();
+	$collection = new WP_MTN_MOMO_Collection();
 
 	$momo_transaction_id = $collection->request_to_pay($transaction_id, $party_id, $amount, $payer_message);
 
@@ -54,7 +54,7 @@ function processForm() {
 
 	// ....................................................
 
-	(new MTN_MOMO_Transaction)->create($momo_transaction_id, $transaction_id, 'collection', $amount, $party_id);
+	(new WP_MTN_MOMO_Transaction)->create($momo_transaction_id, $transaction_id, 'collection', $amount, $party_id);
 
 	// ....................................................
 

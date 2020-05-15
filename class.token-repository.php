@@ -1,6 +1,6 @@
 <?php
 
-class MTN_MOMO_Token_Repository {
+class WP_MTN_MOMO_Token_Repository {
 	protected $tbl_tokens;
 
 	protected $product;
@@ -41,7 +41,7 @@ class MTN_MOMO_Token_Repository {
 
 		// return $wpdb->insert_id;
 
-		return new MTN_MOMO_Token_Model($data);
+		return new WP_MTN_MOMO_Token_Model($data);
 	}
 
 	public function get($access_token = null) {
@@ -59,7 +59,7 @@ class MTN_MOMO_Token_Repository {
 
 		$db_token = array_shift($db_tokens);
 
-		return $db_token ? new MTN_MOMO_Token_Model($db_token) : null;
+		return $db_token ? new WP_MTN_MOMO_Token_Model($db_token) : null;
 	}
 
 	public function delete($access_token) {

@@ -53,13 +53,13 @@ function fn_mtn_momo_ajax_get_transaction_status() {
 	$transaction = null;
 
 	if ($_POST['product'] == 'collection') {
-		$collection = new MTN_MOMO_Collection();
+		$collection = new WP_MTN_MOMO_Collection();
 		$transaction = $collection->get_transaction_status($_POST['momo_transaction_id']);
 	} elseif ($_POST['product'] == 'disbursement') {
-		// $disbursement = new MTN_MOMO_Disbursement();
+		// $disbursement = new WP_MTN_MOMO_Disbursement();
 		// $transaction = $disbursement->get_transaction_status($_POST['momo_transaction_id']);
 	} elseif ($_POST['product'] == 'remittance') {
-		// $remittance = new MTN_MOMO_Remittance();
+		// $remittance = new WP_MTN_MOMO_Remittance();
 		// $transaction = $remittance->get_transaction_status($_POST['momo_transaction_id']);
 	}
 

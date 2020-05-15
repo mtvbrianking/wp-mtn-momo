@@ -1,6 +1,6 @@
 <?php
 
-class MTN_MOMO_Configuration {
+class WP_MTN_MOMO_Configuration {
 	protected $envs = array();
 
 	public function __construct(array $envs = array()) {

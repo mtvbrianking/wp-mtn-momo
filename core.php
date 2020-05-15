@@ -91,7 +91,7 @@ function fn_mtn_momo_activation_hook() {
 
 		dbDelta($sql);
 
-		add_option('mtn_momo_db_version', MTN_MOMO_DB_VERSION);
+		add_option('mtn_momo_db_version', WP_MTN_MOMO_DB_VERSION);
 	}
 }
 
@@ -120,17 +120,17 @@ function fn_mtn_momo_uninstall_hook() {
  * @see https://developer.wordpress.org/reference/functions/add_submenu_page/#comment-446
  */
 function fn_mtn_momo_admin_menu_action() {
-	$transactionsPage = MTN_MOMO_PLUGIN_DIR . 'pages/transactions.php';
+	$transactionsPage = WP_MTN_MOMO_PLUGIN_DIR . 'pages/transactions.php';
 
 	add_menu_page('MTN MOMO', 'MTN MOMO', 'manage_options', $transactionsPage);
 
 	add_submenu_page($transactionsPage, 'Transactions', 'Transactions', 'manage_options', $transactionsPage);
 
-	add_submenu_page($transactionsPage, 'Configurations', 'Configurations', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/configurations.php');
+	add_submenu_page($transactionsPage, 'Configurations', 'Configurations', 'manage_options', WP_MTN_MOMO_PLUGIN_DIR . 'pages/configurations.php');
 
-	add_submenu_page($transactionsPage, 'Sandbox', 'Sandbox', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/sandbox.php');
+	add_submenu_page($transactionsPage, 'Sandbox', 'Sandbox', 'manage_options', WP_MTN_MOMO_PLUGIN_DIR . 'pages/sandbox.php');
 
-	add_submenu_page($transactionsPage, 'Collect', 'Collect', 'manage_options', MTN_MOMO_PLUGIN_DIR . 'pages/collect.php');
+	add_submenu_page($transactionsPage, 'Collect', 'Collect', 'manage_options', WP_MTN_MOMO_PLUGIN_DIR . 'pages/collect.php');
 }
 
 function fn_mtn_momo_page_scripts() {
@@ -141,11 +141,11 @@ function fn_mtn_momo_page_scripts() {
 	);
 
 	if (get_current_screen()->base == 'wp-mtn-momo/pages/sandbox') {
-		wp_register_style('sandbox-css', plugin_dir_url(__FILE__) . 'assets/css/sandbox.css', array(), MTN_MOMO_VERSION);
+		wp_register_style('sandbox-css', plugin_dir_url(__FILE__) . 'assets/css/sandbox.css', array(), WP_MTN_MOMO_VERSION);
 
 		wp_enqueue_style('sandbox-css');
 
-		wp_register_script('sandbox-js', plugin_dir_url(__FILE__) . 'assets/js/sandbox.js', array('jquery'), MTN_MOMO_VERSION, true);
+		wp_register_script('sandbox-js', plugin_dir_url(__FILE__) . 'assets/js/sandbox.js', array('jquery'), WP_MTN_MOMO_VERSION, true);
 
 		wp_enqueue_script('sandbox-js');
 
@@ -153,7 +153,7 @@ function fn_mtn_momo_page_scripts() {
 	}
 
 	if (get_current_screen()->base == 'wp-mtn-momo/pages/collect') {
-		wp_register_script('collect-js', plugin_dir_url(__FILE__) . 'assets/js/collect.js', array('jquery'), MTN_MOMO_VERSION, true);
+		wp_register_script('collect-js', plugin_dir_url(__FILE__) . 'assets/js/collect.js', array('jquery'), WP_MTN_MOMO_VERSION, true);
 
 		wp_enqueue_script('collect-js');
 
@@ -161,7 +161,7 @@ function fn_mtn_momo_page_scripts() {
 	}
 
 	if (get_current_screen()->base == 'wp-mtn-momo/pages/transactions') {
-		wp_register_script('transactions-js', plugin_dir_url(__FILE__) . 'assets/js/transactions.js', array('jquery'), MTN_MOMO_VERSION, true);
+		wp_register_script('transactions-js', plugin_dir_url(__FILE__) . 'assets/js/transactions.js', array('jquery'), WP_MTN_MOMO_VERSION, true);
 
 		wp_enqueue_script('transactions-js');
 

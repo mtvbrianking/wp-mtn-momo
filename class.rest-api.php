@@ -3,7 +3,7 @@
 /**
  * @see https://generatewp.com/snippet/pnkkpve Source
  */
-class MTN_MOMO_Rest_Api {
+class WP_MTN_MOMO_Rest_Api {
 	/**
 	 * Register the REST API routes.
 	 */
@@ -15,7 +15,7 @@ class MTN_MOMO_Rest_Api {
 
 		register_rest_route('mtn-momo/v1', '/transaction', array(
 			'methods' => 'PUT',
-			'callback' => array( 'MTN_MOMO_Rest_Api', 'update_transaction' ),
+			'callback' => array( 'WP_MTN_MOMO_Rest_Api', 'update_transaction' ),
 		));
 	}
 

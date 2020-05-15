@@ -1,6 +1,6 @@
 <?php
 
-class MTN_MOMO_Transaction {
+class WP_MTN_MOMO_Transaction {
 	public function __construct() {
 		// ...
 	}

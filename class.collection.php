@@ -1,6 +1,6 @@
 <?php
 
-class MTN_MOMO_Collection {
+class WP_MTN_MOMO_Collection {
 	public function __construct() {
 		// ...
 	}
@@ -19,7 +19,7 @@ class MTN_MOMO_Collection {
 	 * @return string|null           Auto generated payment reference. Format: UUID
 	 */
 	public function request_to_pay($transactionId, $partyId, $amount, $payerMessage = '', $payeeNote = '') {
-		$config = new MTN_MOMO_Configuration();
+		$config = new WP_MTN_MOMO_Configuration();
 
 		$api_base_uri = $config->get('api_base_uri');
 		$collection_transaction_uri = $config->get('collection_transaction_uri');
@@ -27,7 +27,7 @@ class MTN_MOMO_Collection {
 
 		$momoTransactionId = wp_generate_uuid4();
 
-		$token = MTN_MOMO_OAuth::authorize('collection');
+		$token = WP_MTN_MOMO_OAuth::authorize('collection');
 
 		if (! $token) {
 			return null;
@@ -70,7 +70,7 @@ class MTN_MOMO_Collection {
 		$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
 		if ($statusCode === 401) {
-			MTN_MOMO_OAuth::discard($token);
+			WP_MTN_MOMO_OAuth::discard($token);
 			return null;
 		}
 
@@ -91,7 +91,7 @@ class MTN_MOMO_Collection {
 	 * @return array|null
 	 */
 	public function get_transaction_status($momoTransactionId) {
-		$config = new MTN_MOMO_Configuration();
+		$config = new WP_MTN_MOMO_Configuration();
 
 		$api_base_uri = $config->get('api_base_uri');
 		$collection_transaction_status_uri = str_replace(
@@ -101,7 +101,7 @@ class MTN_MOMO_Collection {
 		);
 		$resource_url = "{$api_base_uri}{$collection_transaction_status_uri}";
 
-		$token = MTN_MOMO_OAuth::authorize('collection');
+		$token = WP_MTN_MOMO_OAuth::authorize('collection');
 
 		if (! $token) {
 			return null;
@@ -125,7 +125,7 @@ class MTN_MOMO_Collection {
 		$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
 		if ($statusCode === 401) {
-			MTN_MOMO_OAuth::discard($token);
+			WP_MTN_MOMO_OAuth::discard($token);
 			return null;
 		}
 
@@ -149,7 +149,7 @@ class MTN_MOMO_Collection {
 	 * @return bool|null           True if account holder is registered and active, false if the account holder is not active or not found
 	 */
 	public function is_active($partyId, $partyIdType = null) {
-		$config = new MTN_MOMO_Configuration();
+		$config = new WP_MTN_MOMO_Configuration();
 
 		$api_base_uri = $config->get('api_base_uri');
 		$partyIdType = $config->get('collection_party_id_type', $partyIdType);
@@ -159,7 +159,7 @@ class MTN_MOMO_Collection {
 		));
 		$resource_url = "{$api_base_uri}{$collection_account_status_uri}";
 
-		$token = MTN_MOMO_OAuth::authorize('collection');
+		$token = WP_MTN_MOMO_OAuth::authorize('collection');
 
 		if (! $token) {
 			return null;
@@ -183,7 +183,7 @@ class MTN_MOMO_Collection {
 		$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
 		if ($statusCode === 401) {
-			MTN_MOMO_OAuth::discard($token);
+			WP_MTN_MOMO_OAuth::discard($token);
 			return null;
 		}
 
@@ -215,13 +215,13 @@ class MTN_MOMO_Collection {
 	 * ```
 	 */
 	public function get_account_balance() {
-		$config = new MTN_MOMO_Configuration();
+		$config = new WP_MTN_MOMO_Configuration();
 
 		$api_base_uri = $config->get('api_base_uri');
 		$collection_account_balance_uri = $config->get('collection_account_balance_uri');
 		$resource_url = "{$api_base_uri}{$collection_account_balance_uri}";
 
-		$token = MTN_MOMO_OAuth::authorize('collection');
+		$token = WP_MTN_MOMO_OAuth::authorize('collection');
 
 		if (! $token) {
 			return null;
@@ -245,7 +245,7 @@ class MTN_MOMO_Collection {
 		$statusCode = wp_remote_retrieve_response_code($wp_http_response);
 
 		if ($statusCode === 401) {
-			MTN_MOMO_OAuth::discard($token);
+			WP_MTN_MOMO_OAuth::discard($token);
 			return null;
 		}
 

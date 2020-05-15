@@ -1,6 +1,6 @@
 <?php
 
-class MTN_MOMO_Token_Model {
+class WP_MTN_MOMO_Token_Model {
 	/**
 	 * Product.
 	 *
