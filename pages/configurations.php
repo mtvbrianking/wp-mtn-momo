@@ -37,12 +37,20 @@ if (isset($_POST['_wpnonce'])) {
 		$error_msg = __('Unable to submit this form, please refresh and try again.');
 	}
 
+	if (! isset($_POST['config'])) {
+		$error_msg = __('No configurations submitted.');
+	}
+
 	if ($error_msg) {
 		print("<div class='error'>{$error_msg}</div>");
 		exit;
 	}
 
-	fn_db_update_configurations($_POST['config']);
+	$configurations = array_filter($_POST['config'], 'is_string', ARRAY_FILTER_USE_KEY);
+
+	$configurations = array_map('sanitize_text_field', $configurations);
+
+	fn_db_update_configurations($configurations);
 }
 ?>
 

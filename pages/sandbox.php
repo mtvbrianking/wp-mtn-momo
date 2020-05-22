@@ -5,9 +5,11 @@ function processForm() {
 
 	$nonce = $_REQUEST['_wpnonce'];
 
+	$old = array_map('sanitize_text_field', $_POST);
+
 	if (! wp_verify_nonce($nonce, 'sandbox')) {
 		$notices['error'][] = 'Cross-site request forgery.';
-		return array('old' => $_POST, 'notices' => $notices);
+		return array('old' => $old, 'notices' => $notices);
 	}
 
 	// .................................................................................................................
@@ -18,9 +20,11 @@ function processForm() {
 
 	// Update subscription key..........................................................................................
 
-	$product = $_POST['product'];
+	$product = sanitize_text_field($_POST['product']);
 
-	$config->set("{$product}_key", $_POST['key']);
+	$key = sanitize_text_field($_POST['key']);
+
+	$config->set("{$product}_key", $key);
 
 	// Register client app id...........................................................................................
 
@@ -30,7 +34,7 @@ function processForm() {
 
 	if (! $registered) {
 		$notices['error'][] = 'Client app ID registration has failed.';
-		return array('old' => $_POST, 'notices' => $notices);
+		return array('old' => $old, 'notices' => $notices);
 	}
 
 	$config->set("{$product}_id", $client_app_id);
@@ -41,14 +45,14 @@ function processForm() {
 
 	if (! $client_app_secret) {
 		$notices['error'][] = 'Client app secret registration has failed.';
-		return array('old' => $_POST, 'notices' => $notices);
+		return array('old' => $old, 'notices' => $notices);
 	}
 
 	$config->set("{$product}_secret", $client_app_secret);
 
 	$notices['success'][] = 'Sandbox credentials updated...';
 
-	return array('old' => $_POST, 'notices' => $notices);
+	return array('old' => $old, 'notices' => $notices);
 }
 
 $old = array();
