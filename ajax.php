@@ -14,7 +14,7 @@ function fn_mtn_momo_ajax_get_configurations() {
 	$filter = '';
 
 	if (isset($_POST['product'])) {
-		$product = sanitize_text_field($_POST['product']);
+		$product = esc_sql(sanitize_text_field($_POST['product']));
 		$filter .= " WHERE `name` LIKE '{$product}%' ";
 	}
 
