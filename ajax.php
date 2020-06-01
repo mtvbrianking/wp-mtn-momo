@@ -14,7 +14,7 @@ function fn_mtn_momo_ajax_get_configurations() {
 	$filter = '';
 
 	if (isset($_POST['product'])) {
-		$product = $_POST['product'];
+		$product = esc_sql(sanitize_text_field($_POST['product']));
 		$filter .= " WHERE `name` LIKE '{$product}%' ";
 	}
 
@@ -22,9 +22,7 @@ function fn_mtn_momo_ajax_get_configurations() {
 
 	$configurations = $wpdb->get_results($sql);
 
-	echo json_encode(array('configurations' => $configurations));
-
-	wp_die();
+	wp_send_json(array('configurations' => $configurations), 200);
 }
 
 function fn_mtn_momo_ajax_get_transaction_status() {
@@ -50,17 +48,19 @@ function fn_mtn_momo_ajax_get_transaction_status() {
 		), $errors), 422);
 	}
 
-	$transaction = null;
+	$product = sanitize_text_field($_POST['product']);
 
-	if ($_POST['product'] == 'collection') {
+	$momo_transaction_id = sanitize_text_field($_POST['momo_transaction_id']);
+
+	if ($product == 'collection') {
 		$collection = new WP_MTN_MOMO_Collection();
-		$transaction = $collection->get_transaction_status($_POST['momo_transaction_id']);
-	} elseif ($_POST['product'] == 'disbursement') {
+		$transaction = $collection->get_transaction_status($momo_transaction_id);
+	} elseif ($product == 'disbursement') {
 		// $disbursement = new WP_MTN_MOMO_Disbursement();
-		// $transaction = $disbursement->get_transaction_status($_POST['momo_transaction_id']);
-	} elseif ($_POST['product'] == 'remittance') {
+		// $transaction = $disbursement->get_transaction_status($momo_transaction_id);
+	} elseif ($product == 'remittance') {
 		// $remittance = new WP_MTN_MOMO_Remittance();
-		// $transaction = $remittance->get_transaction_status($_POST['momo_transaction_id']);
+		// $transaction = $remittance->get_transaction_status($momo_transaction_id);
 	}
 
 	if (! $transaction) {
@@ -74,7 +74,7 @@ function fn_mtn_momo_ajax_get_transaction_status() {
 			'financial_id' => fn_mtn_momo_array_get($transaction, 'financialTransactionId'),
 			'reason' => fn_mtn_momo_array_get($transaction, 'reason.code')
 		),
-		array('external_id' => $_POST['momo_transaction_id']),
+		array('external_id' => $momo_transaction_id),
 		array('%s', '%s'),
 		array('%s')
 	);
