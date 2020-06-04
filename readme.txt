@@ -63,6 +63,11 @@ But first, submit you KYC forms [here](https://momodeveloper.mtn.com/go-live)
 3. Sandbox Configurations
 4. Transactions
 
+== Changelog ==
+
+= 0.0.1 =
+* Inital beta release.
+
 == Arbitrary section ==
 
 **Prerequisites**:
@@ -73,5 +78,3 @@ You will need the following to get started with you integration...
 2. Subscribe to a [**product/service**](https://momodeveloper.mtn.com/products) that you wish to consume.
 
 If you already subscribed to a product, the subscription key can be found in your [**profile**](https://momodeveloper.mtn.com/developer).
-
-<!-- changelog -->

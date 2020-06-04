@@ -1,6 +1,6 @@
 # Source: https://github.com/10up/actions-wordpress
 
-name: Deploy to WordPress.org
+name: Deploy plugin
 
 on:
   release:
@@ -11,22 +11,17 @@ jobs:
     name: New release
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Populate Changelog
-      run: node .github/workflows/changelog.js readme.txt
-      env:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: WordPress Plugin Deploy
-      id: deploy
-      uses: 10up/action-wordpress-plugin-deploy@master
-      with:
-        generate-zip: true
-      env:
-        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+      - name: WordPress Plugin Deploy
+        id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@master
+        with:
+          generate-zip: false
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
 
     #   https://github.com/actions/upload-release-asset
     # - name: Upload release asset

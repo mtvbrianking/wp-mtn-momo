@@ -1,8 +1,10 @@
-name: Plugin asset/readme update
+name: Update assets or readme
+
 on:
   push:
     branches:
     - master
+
 jobs:
   master:
     name: Push to master
