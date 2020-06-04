@@ -1,5 +1,8 @@
 # Directories
-vendor
+/.wordpress-org
+/.git
+/.github
+/vendor
 
 # Files
 .distignore
