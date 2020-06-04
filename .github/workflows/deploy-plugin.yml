@@ -14,6 +14,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+        # @TODO need to cache the npm dependencies
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Assets
+      run: npm run build
+
+    - name: Populate Changelog
+      run: node .github/workflows/changelog.js readme.txt
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: WordPress Plugin Deploy
       id: deploy
       uses: 10up/action-wordpress-plugin-deploy@master
@@ -22,7 +34,8 @@ jobs:
       env:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-    # https://github.com/actions/upload-release-asset
+
+    #   https://github.com/actions/upload-release-asset
     # - name: Upload release asset
     #   uses: actions/upload-release-asset@v1
     #   env:
