@@ -14,13 +14,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-        # @TODO need to cache the npm dependencies
-    - name: Install Dependencies
-      run: npm install
-
-    - name: Build Assets
-      run: npm run build
-
     - name: Populate Changelog
       run: node .github/workflows/changelog.js readme.txt
       env:
